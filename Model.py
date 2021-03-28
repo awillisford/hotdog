@@ -27,8 +27,12 @@ class Model(nn.Module):
         x = self.fc3(x)
         return x
 
-net = Model()
-input = torch.randn(1, 1, 299, 299)
-print(input)
-out = net.forward(input)
-print(out)
+if __name__ == "__main__":
+    net = Model()
+    print(net, '\n')
+
+    input = torch.randn(1, 1, 299, 299)
+    print(input, '\n')
+
+    out = net.forward(input)
+    print(out)

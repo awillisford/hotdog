@@ -64,5 +64,6 @@ class DataGenerator():
         print("Testing hotdogs:", cls.count_test_hotdog)
         print("Testing not hotdogs:", cls.count_test_nothotdog)
 
-DataGenerator.gen_training_data()
-DataGenerator.gen_testing_data()
+if __name__ == "__main__":
+    DataGenerator.gen_training_data()
+    DataGenerator.gen_testing_data()
