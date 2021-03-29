@@ -30,9 +30,3 @@ class Model(nn.Module):
 if __name__ == "__main__":
     net = Model()
     print(net, '\n')
-
-    input = torch.randn(1, 1, 299, 299)
-    print(input, '\n')
-
-    out = net.forward(input)
-    print(out)
