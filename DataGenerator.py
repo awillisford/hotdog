@@ -22,7 +22,7 @@ class DataGenerator():
 
     @classmethod # class methods modify class state that applies across all instances of the class
     def gen_training_data(cls):
-        LABELS = {cls.TRAIN_HOTDOG: 0, cls.TRAIN_NOTHOTDOG: 1} # hotdogs set to 0, else 1
+        LABELS = {cls.TRAIN_HOTDOG: [1, 0], cls.TRAIN_NOTHOTDOG: [0, 1]} # hotdogs set to first index, not hotdog second index
         for label in LABELS:
             for file in tqdm(os.listdir(label)): # create list from files in label, and iterates through list
                 file_path = os.path.join(label, file)
@@ -44,7 +44,7 @@ class DataGenerator():
 
     @classmethod # class methods modify class state that applies across all instances of the class
     def gen_testing_data(cls):
-        LABELS = {cls.TEST_HOTDOG: 0, cls.TEST_NOTHOTDOG: 1} # hotdogs set to 0, else 1
+        LABELS = {cls.TEST_HOTDOG: [1, 0], cls.TEST_NOTHOTDOG: [0, 1]} # hotdogs set to 0, else 1
         for label in LABELS:
             for file in tqdm(os.listdir(label)): # create list from files in label, and iterates through list
                 file_path = os.path.join(label, file)
