@@ -11,7 +11,7 @@ class Model(nn.Module):
         self.conv2 = nn.Conv2d(6, 12, 5)
 
         # an affine operation: y = Wx + b
-        self.fc1 = nn.Linear(60492, 100)
+        self.fc1 = nn.Linear(6049200, 100)
         self.fc2 = nn.Linear(100, 50)
         self.fc3 = nn.Linear(50, 2) # 2, hotdog or not hotdog
 
