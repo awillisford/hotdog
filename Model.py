@@ -18,13 +18,23 @@ class Model(nn.Module):
     def forward(self, x):
         # max pooling over a (2, 2) window
         x = F.max_pool2d(F.relu(self.conv1(x)), 2)
+        print("conv1:", x.size())
+
         x = F.max_pool2d(F.relu(self.conv2(x)), 2)
+        print("conv2:", x.size())
 
         x = torch.flatten(x) # flatten
+        print("flattened:", x.size())
 
         x = F.relu(self.fc1(x))
+        print("lin1:", x.size())
+
         x = F.relu(self.fc2(x))
+        print("lin2:", x.size())
+
         x = self.fc3(x)
+        print("lin3:", x.size())
+
         return x
 
 if __name__ == "__main__":
