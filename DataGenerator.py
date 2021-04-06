@@ -20,6 +20,8 @@ class DataGenerator():
     count_test_hotdog = 0
     count_test_nothotdog = 0
 
+    IMG_SIZE = 150
+
     @classmethod # class methods modify class state that applies across all instances of the class
     def gen_training_data(cls):
         LABELS = {cls.TRAIN_HOTDOG: [1, 0], cls.TRAIN_NOTHOTDOG: [0, 1]} # hotdogs set to first index, not hotdog second index
@@ -27,6 +29,7 @@ class DataGenerator():
             for file in tqdm(os.listdir(label)): # create list from files in label, and iterates through list
                 file_path = os.path.join(label, file)
                 image = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE) # load a color image in grayscale
+                image = cv2.resize(image, (cv2.IMG_SIZE, cv2.IMG_SIZE)) # resize image
                 cls.training_data.append([np.array(image), LABELS[label]]) # group image to correct label
 
                 # count data to keep balance
