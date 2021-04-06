@@ -4,14 +4,10 @@ from tqdm import tqdm
 import numpy as np
 import torch
 import torch.nn as nn
-import gc
 
 ''' https://pytorch.org/tutorials/beginner/blitz/neural_networks_tutorial.html '''
 
 def main():
-    gc.collect()
-    net = Model().to(device).double() # attempt to run using CUDA
-
     training_data = np.load("data/training_data.npy", allow_pickle=True)
 
     SAVE_DATA = False # constant
@@ -30,33 +26,40 @@ def main():
         X = torch.load('features.pt')
         y = torch.load('labels.pt')
 
-    loss_function = nn.MSELoss()
-    optimizer = optim.SGD(net.parameters(), lr=0.01)
-    BATCH_SIZE = 100 # constant
-    for epoch in range(1): # iterate through dataset range(x) times
-        for val in tqdm(range(0, len(training_data), BATCH_SIZE)): # iterate through dataset, jumping BATCH_SIZE at a time
-            batch_X = X[val:val + BATCH_SIZE].view(-1, 1, 299, 299) # assign features to current batch
-            batch_y = y[val:val + BATCH_SIZE].double() # assign labels to current batch
 
-            batch_X, batch_y = batch_X.to(device), batch_y.to(device) # use GPU if possible
+    IMG_SIZE = X[0].size()[0] # get image size from first feature
+    BATCH_SIZE = 20 # constant
+
+    print("IMG_SIZE: ", (IMG_SIZE, IMG_SIZE))
+    print("BATCH_SIZE: ", BATCH_SIZE)
+
+    net = Model(IMG_SIZE, BATCH_SIZE).to(device).double() # attempt to run using CUDA
+
+    loss_function = nn.MSELoss()
+    optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.9)
+
+    for epoch in range(20): # iterate through dataset range(x) times
+        print(f"Epoch: {epoch}")
+        for val in tqdm(range(0, len(training_data), BATCH_SIZE)): # iterate through dataset, jumping BATCH_SIZE at a time
+            batch_X = X[val:val + BATCH_SIZE].view(-1, 1, IMG_SIZE, IMG_SIZE).to(device) # assign features to current batch
+            batch_y = y[val:val + BATCH_SIZE].double().to(device) # assign labels to current batch
 
             net.zero_grad() # set gradients to zero
 
             # pass features through network and calculate loss
             output = net.forward(batch_X.double())
             loss = loss_function(output, batch_y).double()
-
             print(loss)
 
             loss.backward()
-
-
+            optimizer.step() # updates model
+        print(f"Epoch: {epoch} - Loss: {loss}")
 
 if __name__ == "__main__":
     print("CUDA enabled -",torch.cuda.is_available())
 
     if torch.cuda.is_available():
-        device = torch.device("cuda:0") # type device, index 0
+        device = torch.device("cuda") # type device, index 0
     else:
         device = torch.device("cpu") # type device
 
