@@ -29,7 +29,7 @@ class DataGenerator():
             for file in tqdm(os.listdir(label)): # create list from files in label, and iterates through list
                 file_path = os.path.join(label, file)
                 image = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE) # load a color image in grayscale
-                image = cv2.resize(image, (cv2.IMG_SIZE, cv2.IMG_SIZE)) # resize image
+                image = cv2.resize(image, (cls.IMG_SIZE, cls.IMG_SIZE)) # resize image
                 cls.training_data.append([np.array(image), LABELS[label]]) # group image to correct label
 
                 # count data to keep balance
