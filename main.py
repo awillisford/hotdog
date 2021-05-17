@@ -28,7 +28,7 @@ def main():
 
 
     IMG_SIZE = X[0].size()[0] # get image size from first feature
-    BATCH_SIZE = 20 # constant
+    BATCH_SIZE = 30 # constant
 
     print("IMG_SIZE: ", (IMG_SIZE, IMG_SIZE))
     print("BATCH_SIZE: ", BATCH_SIZE)
@@ -36,9 +36,9 @@ def main():
     net = Model(IMG_SIZE, BATCH_SIZE).to(device).double() # attempt to run using CUDA
 
     loss_function = nn.MSELoss()
-    optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.9)
+    optimizer = optim.SGD(net.parameters(), lr=1e-2)
 
-    for epoch in range(20): # iterate through dataset range(x) times
+    for epoch in range(2): # iterate through dataset range(x) times
         print(f"Epoch: {epoch}")
         for val in tqdm(range(0, len(training_data), BATCH_SIZE)): # iterate through dataset, jumping BATCH_SIZE at a time
             batch_X = X[val:val + BATCH_SIZE].view(-1, 1, IMG_SIZE, IMG_SIZE).to(device) # assign features to current batch

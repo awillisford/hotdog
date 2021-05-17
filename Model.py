@@ -23,7 +23,7 @@ class Model(nn.Module):
         x = F.max_pool2d(F.relu(self.conv2(x)), 2)
 
         x = torch.flatten(x) # flatten
-        
+
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = self.fc3(x)
